@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "./cart-context";
 import { buildWhatsappOrderLink, formatPrice } from "@/lib/whatsapp";
+import { products } from "@/lib/products";
 
 function WhatsappIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -17,6 +20,18 @@ function WhatsappIcon(props: React.SVGProps<SVGSVGElement>) {
 export function CartDrawer() {
   const { items, isOpen, close, removeItem, setQty, total } = useCart();
   const whatsappLink = buildWhatsappOrderLink(items);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, close]);
 
   return (
     <AnimatePresence>
@@ -37,15 +52,16 @@ export function CartDrawer() {
             exit={{ x: "100%" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             role="dialog"
-            aria-label="Carrito de compras"
+            aria-modal="true"
+            aria-label="Tu pedido"
             className="fixed right-0 top-0 z-[61] flex h-full w-full max-w-md flex-col bg-ivory shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-espresso/10 px-6 py-5">
               <h2 className="font-display text-2xl font-medium text-espresso">
-                Tu Carrito
+                Tu Pedido
               </h2>
               <button
-                aria-label="Cerrar carrito"
+                aria-label="Cerrar pedido"
                 onClick={close}
                 className="flex h-9 w-9 items-center justify-center rounded-full text-espresso/60 transition-colors hover:bg-espresso/5 hover:text-espresso"
               >
@@ -56,22 +72,29 @@ export function CartDrawer() {
             {items.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
                 <ShoppingBag size={36} strokeWidth={1} className="text-espresso/25" />
-                <p className="text-[15px] text-espresso/60">
-                  Tu carrito está vacío. Explorá nuestras creaciones y agregá tu favorita.
+                <p className="max-w-[18rem] text-[15px] leading-relaxed text-espresso/60">
+                  Todavía no elegiste nada. Hay {products.length} creaciones esperándote en el catálogo.
                 </p>
+                <Link
+                  href="/catalogo"
+                  onClick={close}
+                  className="mt-2 rounded-full bg-espresso px-7 py-3 text-[12px] font-semibold tracking-[0.1em] text-ivory transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  VER CATÁLOGO
+                </Link>
               </div>
             ) : (
               <>
                 <ul className="flex-1 overflow-y-auto px-6 py-4">
                   {items.map((item) => (
                     <li
-                      key={item.product.id}
+                      key={item.key}
                       className="flex gap-4 border-b border-espresso/10 py-5 first:pt-0"
                     >
-                      <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl">
+                      <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-beige/40">
                         <Image
-                          src={item.product.image}
-                          alt={item.product.alt}
+                          src={item.product.photos[0].src}
+                          alt={item.product.photos[0].alt}
                           fill
                           sizes="80px"
                           className="object-cover"
@@ -79,34 +102,39 @@ export function CartDrawer() {
                       </span>
                       <div className="flex flex-1 flex-col">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="font-display text-base font-medium leading-tight text-espresso">
+                          <Link
+                            href={`/catalogo/${item.product.slug}`}
+                            onClick={close}
+                            className="font-display text-lg font-medium leading-tight text-espresso hover:underline hover:underline-offset-4"
+                          >
                             {item.product.name}
-                          </p>
+                          </Link>
                           <button
                             aria-label={`Quitar ${item.product.name}`}
-                            onClick={() => removeItem(item.product.id)}
+                            onClick={() => removeItem(item.key)}
                             className="shrink-0 text-espresso/35 transition-colors hover:text-espresso"
                           >
                             <Trash2 size={15} strokeWidth={1.5} />
                           </button>
                         </div>
                         <p className="mt-1 text-[13px] text-espresso/55">
-                          {formatPrice(item.product.price)}
+                          {item.size.label} · {item.size.serves} ·{" "}
+                          <span className="tabular-nums">{formatPrice(item.size.price)}</span>
                         </p>
                         <div className="mt-3 flex items-center gap-3">
                           <button
                             aria-label="Restar cantidad"
-                            onClick={() => setQty(item.product.id, item.qty - 1)}
+                            onClick={() => setQty(item.key, item.qty - 1)}
                             className="flex h-7 w-7 items-center justify-center rounded-full border border-espresso/20 text-espresso/70 transition-colors hover:border-espresso/40"
                           >
                             <Minus size={12} />
                           </button>
-                          <span className="w-4 text-center text-[13px] font-medium text-espresso">
+                          <span className="w-4 text-center text-[13px] font-medium tabular-nums text-espresso">
                             {item.qty}
                           </span>
                           <button
                             aria-label="Sumar cantidad"
-                            onClick={() => setQty(item.product.id, item.qty + 1)}
+                            onClick={() => setQty(item.key, item.qty + 1)}
                             className="flex h-7 w-7 items-center justify-center rounded-full border border-espresso/20 text-espresso/70 transition-colors hover:border-espresso/40"
                           >
                             <Plus size={12} />
@@ -120,7 +148,7 @@ export function CartDrawer() {
                 <div className="border-t border-espresso/10 px-6 py-6">
                   <div className="mb-5 flex items-center justify-between">
                     <span className="text-[14px] font-medium text-espresso/70">Total</span>
-                    <span className="font-display text-xl font-medium text-espresso">
+                    <span className="font-display text-2xl font-medium tabular-nums text-espresso">
                       {formatPrice(total)}
                     </span>
                   </div>
@@ -134,7 +162,7 @@ export function CartDrawer() {
                     PEDIR POR WHATSAPP
                   </a>
                   <p className="mt-3 text-center text-[11px] leading-relaxed text-espresso/45">
-                    Se abrirá WhatsApp con tu pedido ya escrito, listo para enviar.
+                    Se abrirá WhatsApp con tu pedido ya escrito. Confirmamos fecha, entrega y pago por ahí.
                   </p>
                 </div>
               </>

@@ -16,15 +16,12 @@ export function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="bg-warm-ivory py-24 md:py-32">
+    <section id="testimonials" className="bg-ivory py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="mb-14 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal>
-            <p className="mb-3 text-[12px] font-semibold tracking-[0.3em] text-espresso/45">
-              PALABRAS DULCES
-            </p>
             <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-medium leading-[1.02] text-espresso">
-              De Nuestros Clientes
+              Palabras <span className="italic">dulces</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1} className="flex gap-3">
@@ -56,7 +53,7 @@ export function Testimonials() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col gap-5 rounded-[1.75rem] bg-ivory p-8 shadow-[0_20px_40px_-25px_rgba(27,14,11,0.25)]"
+                  className="flex flex-col gap-5 rounded-[1.75rem] bg-warm-ivory p-8 shadow-[0_20px_40px_-25px_rgba(27,14,11,0.25)]"
                 >
                   <div className="flex text-gold">
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -70,14 +67,17 @@ export function Testimonials() {
                     <span className="relative h-10 w-10 overflow-hidden rounded-full">
                       <Image
                         src={item.avatar}
-                        alt={item.name}
+                        alt=""
                         fill
                         sizes="40px"
                         className="object-cover"
                       />
                     </span>
-                    <span className="text-[13px] font-semibold text-espresso/70">
-                      {item.name}
+                    <span className="flex flex-col">
+                      <span className="text-[13px] font-semibold text-espresso/80">
+                        {item.name}
+                      </span>
+                      <span className="text-[12px] text-espresso/50">{item.occasion}</span>
                     </span>
                   </div>
                 </motion.div>

@@ -9,25 +9,25 @@ const STAGES = [
   {
     number: "01",
     title: "La Base",
-    description: "Todo comienza con un bizcocho sencillo.",
+    description: "Bizcocho horneado al amanecer, con manteca y huevos de campo.",
     image: images.process.base,
   },
   {
     number: "02",
     title: "La Crema",
-    description: "Una capa de puro placer.",
+    description: "Cremas batidas a mano, nunca de sobre.",
     image: images.process.cream,
   },
   {
     number: "03",
     title: "El Ganache",
-    description: "Suave, intenso, irresistible.",
+    description: "Chocolate de origen fundido a 31 °C, ni un grado más.",
     image: images.process.ganache,
   },
   {
     number: "04",
     title: "La Decoración",
-    description: "Porque no es solo un pastel, es un sentimiento.",
+    description: "Fruta, flores y cacao, puestos uno por uno.",
     image: images.process.decoration,
   },
 ];
@@ -39,15 +39,15 @@ export function ProcessSection() {
         <div className="mb-16 flex flex-col gap-8 md:mb-24 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <h2 className="font-display text-[clamp(2.25rem,5vw,3.75rem)] font-medium leading-[1.02] text-ivory">
-              El Pastel
+              La torta
               <br />
-              Cobra Vida
+              <span className="italic">cobra vida</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1} className="flex items-center gap-3 text-ivory/50">
             <span className="h-px w-10 bg-ivory/30" />
             <p className="max-w-[16rem] text-[14px] leading-relaxed">
-              Desliza para ver cómo se despliega la magia.
+              Cuatro pasos, ningún atajo. Así nace cada torta en el obrador.
             </p>
           </Reveal>
         </div>

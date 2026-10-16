@@ -24,7 +24,7 @@ Not "another bakery site" — positioned as edible-moment craftsmanship with the
 
 ## Operating Context
 
-Single long-scroll landing page: navigation, hero with flavor/category selector, dark "Choose Your Mood" category section, featured product (Chocolate Truffle) with price and add-to-cart demo, a 4-stage "cake comes alive" process section, an "Inside the Cake / Cake DNA" layered cutaway storytelling section, testimonials, a cinematic final CTA, and footer. Fictional brand — no real store location, pricing is illustrative (₹ was used in the reference and is kept as the illustrative currency).
+Three surfaces sharing one nav, cart drawer and footer: the long-scroll landing (`/`: hero with working flavor selector, dark "¿Qué celebramos?" occasion accordion, featured Trufa de Chocolate with size picker, bestsellers, process, Cake DNA, commissions gallery with lightbox, testimonials, cinematic CTA); the catalog (`/catalogo`: 33 products, category tabs, occasion chips, search and sort, all synced to shareable URL params); and per-product pages (`/catalogo/[slug]`: gallery, sizes/portions, quantity, layers, allergens, lead time, related items). Fictional brand — no real store location. Prices are illustrative and in Argentine pesos (ARS, `$`), matching the Argentine WhatsApp order flow.
 
 ## Capabilities and Constraints
 

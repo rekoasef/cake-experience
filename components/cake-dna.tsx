@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Heart } from "lucide-react";
 import { images } from "@/lib/images";
 import { Reveal } from "./reveal";
@@ -17,25 +18,22 @@ export function CakeDna() {
     <section id="cake-dna" className="bg-ivory py-24 md:py-32">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-14 px-6 md:grid-cols-[0.9fr_1fr_0.7fr] md:gap-8 md:px-10">
         <Reveal>
-          <p className="mb-3 text-[12px] font-semibold tracking-[0.3em] text-espresso/45">
-            POR DENTRO
-          </p>
           <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] font-medium leading-[1.05] text-espresso">
-            El ADN del Pastel
+            El ADN de la Torta
           </h2>
           <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-espresso/70">
-            Capas de amor, en cada bocado.
+            Cuatro capas, cuatro texturas, una sola idea: que el último bocado sea tan bueno como el primero.
           </p>
-          <a
-            href="#featured"
+          <Link
+            href="/catalogo/trufa-de-chocolate"
             className="group mt-8 inline-flex items-center gap-2 rounded-full bg-espresso px-7 py-3.5 text-[13px] font-semibold tracking-[0.08em] text-ivory transition-transform duration-300 hover:-translate-y-0.5"
           >
-            EXPLORAR CAPAS
+            CONOCER LA TRUFA
             <ArrowRight
               size={15}
               className="transition-transform duration-300 group-hover:translate-x-1"
             />
-          </a>
+          </Link>
         </Reveal>
 
         <Reveal
@@ -47,6 +45,7 @@ export function CakeDna() {
               src={images.cakeDna.src}
               alt={images.cakeDna.alt}
               fill
+              quality={90}
               sizes="(max-width: 768px) 80vw, 30vw"
               className="object-cover"
             />

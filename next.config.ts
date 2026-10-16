@@ -2,12 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
+    loader: "custom",
+    loaderFile: "./lib/image-loader.ts",
+    qualities: [75, 80, 90],
   },
   turbopack: {
     rules: {
